@@ -1,0 +1,14 @@
+- name: "Add Node jS18"
+  become: ture
+  shell:  |
+    curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+- name: "Install js"
+  become: ture
+  apt:
+     name:["nodejs"]
+     state: latest
+     update_cache: yes
+- name: "Install PM2"
+  npm: 
+    name: pm2  
+    global: yes    
