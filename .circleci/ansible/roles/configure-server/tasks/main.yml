@@ -5,7 +5,7 @@
 - name: "Install js"
   become: ture
   apt:
-     name:["nodejs"]
+     name: ["nodejs"]
      state: latest
      update_cache: yes
 - name: "Install PM2"
