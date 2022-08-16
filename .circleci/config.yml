@@ -178,7 +178,7 @@ jobs:
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
-                     
+
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -206,6 +206,13 @@ jobs:
           fingerprints: ["72:0c:52:f5:fe:97:e5:cb:fb:22:13:de:f9:ea:f8:47"]         
       - attach_workspace:
          at: ~/  
+         ------------------------------ NEW
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update curl nodejs npm ansible zip
+            pip install awscli   
+            ------------------------------------------16 8
       - run:
           name: Configure server
           command: |
