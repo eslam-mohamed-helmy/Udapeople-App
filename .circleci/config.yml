@@ -201,7 +201,7 @@ jobs:
       - destroy_environment  
   run-migrations:
     docker:
-      - image: cimg/node:13.8.0
+      - image: 3apag/ci-node:13.8.0
     parameters:
         workflow_id:
           type: string
