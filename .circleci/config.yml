@@ -211,6 +211,7 @@ jobs:
           command: |
             cd backend
             npm install
+            npm run build
             npm audit fix 
             npm run migrations 2>&1 migration_FILE.txt
             cat migration_FILE.txt
