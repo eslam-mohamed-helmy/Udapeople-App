@@ -198,7 +198,7 @@ jobs:
       - destroy_environment  
   run-migrations:
     docker:
-      - image: 3apag/ci-node:13.8.0
+      - image: circleci/node:13.8.0
     parameters:
         workflow_id:
           type: string
@@ -211,8 +211,8 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --force
-            npm run migrations >> migration_FILE.txt
+            npm audit fix 
+            npm run migrations 2>&1 migration_FILE.txt
             cat migration_FILE.txt
             
       - run:
