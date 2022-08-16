@@ -206,13 +206,13 @@ jobs:
           fingerprints: ["72:0c:52:f5:fe:97:e5:cb:fb:22:13:de:f9:ea:f8:47"]         
       - attach_workspace:
          at: ~/  
-         ------------------------------ NEW
+         #------------------------------ #NEW
       - run:
           name: Install dependencies
           command: |
             apk add --update curl nodejs npm ansible zip
             pip install awscli   
-            ------------------------------------------16 8
+           # ------------------------------------------16 8
       - run:
           name: Configure server
           command: |
