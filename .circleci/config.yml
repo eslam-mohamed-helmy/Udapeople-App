@@ -20,6 +20,7 @@ commands:
               sudo apt install software-properties-common
               sudo add-apt-repository --yes --update ppa:ansible/ansible
               sudo apt install ansible  
+              
     destroy_environment:
       description: Destroy backend and frontend cloudformation stacks given a workflow ID.
       parameters:
@@ -89,7 +90,7 @@ jobs:
           key: backend-deps
   test-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -102,7 +103,7 @@ jobs:
              npm test              
   test-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
      - checkout
      - restore_cache:
@@ -115,7 +116,7 @@ jobs:
           npm test
   scan-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
      - checkout
      - restore_cache:
@@ -129,7 +130,7 @@ jobs:
           npm audit --audit-level=critical
   scan-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
      - checkout
      - restore_cache:
