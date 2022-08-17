@@ -1,5 +1,5 @@
 version: 2.1
-
+#f
 commands:
     install_awscli:
       description: Install AWS CLI v2
@@ -20,7 +20,7 @@ commands:
               sudo apt install software-properties-common
               sudo add-apt-repository --yes --update ppa:ansible/ansible
               sudo apt install ansible  
-              
+
     destroy_environment:
       description: Destroy backend and frontend cloudformation stacks given a workflow ID.
       parameters:
@@ -143,7 +143,7 @@ jobs:
           npm audit fix --audit-level=critical --force
           npm audit fix --audit-level=critical --force
           npm audit --audit-level=critical
-  deploy-infrastructure:
+  deploy-infrastructure: 
     docker:
        - image: cimg/base:stable
     steps:
