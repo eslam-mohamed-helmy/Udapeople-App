@@ -22,8 +22,8 @@
       changed_when: false
       
  # Get the environment variables from CircleCI and add to the EC2 instance       
-  vars:       
-    environment:
+    
+  environment:
       ENVIRONMENT: production
       VERSION: "1"
       TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
