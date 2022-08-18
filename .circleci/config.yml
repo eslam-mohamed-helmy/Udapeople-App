@@ -210,7 +210,7 @@ jobs:
       - destroy_environment  
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     parameters:
         workflow_id:
           type: string
@@ -218,6 +218,9 @@ jobs:
     steps:
       - checkout
       - install_awscli
+      - install_nodejs
+      - restore_cache:
+          keys: [backend-build]
       - run:
           name: Run migration
           command: |
