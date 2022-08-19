@@ -340,8 +340,8 @@ jobs:
             else
               exit 2
             fi
-      #- destroy_environment
-      #- revert_migrations
+      - destroy_environment
+      - revert_migrations
       # Here's where you will add some code to rollback on failure  
 #
 #cloudfront-update:
