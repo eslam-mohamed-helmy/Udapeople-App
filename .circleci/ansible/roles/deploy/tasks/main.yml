@@ -1,4 +1,8 @@
 ---
+- name: "install netstat" 
+  become: true
+  shell: |
+     sudo apt install net-tools -y   
 - name: Create Backend Directory
   file:
     path: /home/ubuntu/backend-app
@@ -8,6 +12,7 @@
   unarchive:
     src: artifact.tar.gz
     dest: /home/ubuntu/backend-app
+ 
 
 - name: "install Node"
   shell: |
