@@ -11,19 +11,18 @@
     dest: /home/ubuntu/backend-app
 
 - name: "install Node"
+  become: true
   shell: |
     cd ~/backend-app
     npm install
 
-- name: "executing node app with PM2"
+- name: "executing node app with PM2 and print Massages"
   become: true
   shell: |
     cd /home/ubuntu/backend-app/dist
     pm2 stop default
     pm2 start -f main.js
   register: execute_node
-
-- name: "print message"
   debug:
     msg: "{{execute_node.stdout_lines}}"
 
