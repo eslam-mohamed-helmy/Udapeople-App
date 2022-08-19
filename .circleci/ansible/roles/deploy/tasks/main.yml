@@ -14,7 +14,7 @@
     cd ~/backend-app
     npm install
 
-- name: "executing node app with PM2"
+- name: "starting node app with PM2"
   become: true
   shell: |
     cd /home/ubuntu/backend-app/dist
@@ -26,6 +26,7 @@
     TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
     TYPEORM_MIGRATIONS_DIR: "{{lookup('env','TYPEORM_MIGRATIONS_DIR')}}"
     TYPEORM_ENTITIES: "{{ lookup('env', 'TYPEORM_ENTITIES') }}"
+    TYPEORM_MIGRATIONS: "{{ lookup('env', 'TYPEORM_MIGRATIONS') }}"
     TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
     TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
     TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
