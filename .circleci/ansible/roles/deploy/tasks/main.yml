@@ -11,9 +11,9 @@
     dest: /home/ubuntu/backend-app
 
 - name: "install Node"
-   shell: |
-     cd ~/backend-app
-     npm install
+  shell: |
+    cd ~/backend-app
+    npm install
 
 - name: "executing node app with PM2"
   become: true
