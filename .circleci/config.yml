@@ -54,7 +54,7 @@ commands:
             name: Revert_migrations
             when: on_fail
             command: | 
-              SUCCESS=$(curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_<< parameters.workflow_id>>)
+              SUCCESS=$(curl --insecure https://kvdb.io/QcNvhUuqnK7NeE9NXfWzu2/migration_<< parameters.workflow_id>>)
               if  (( $SUCCESS==1 ));
               then 
                 cd ~/project/backend
@@ -336,23 +336,33 @@ jobs:
             fi
       - destroy_environment
       - revert_migrations
-#      # Here's where you will add some code to rollback on failure  
-##
-##cloudfront-update:
-##  docker:
-##    # Docker image here that supports AWS CLI
-##  steps:
-##    # Checkout code from git
-##    - run:
-##        name: Install dependencies
-##        command: |
-##          # your code here
-##    - run:
-##        name: Update cloudfront distribution
-##        command: |
-##          # your code here
-##    # Here's where you will add some code to rollback on failure  
-##
+
+  cloudfront-update:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - install_awscli
+      - install_nodejs
+      - run:
+          name: Save Old WorkflowID to kvdb
+          command: |
+            export WORKFLOWID_Old=$(aws cloudformation \
+                      list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+                      --no-paginate --output text)
+            echo "Old Wokflow ID: $OLD_WORKFLOW_ID" >> ~/WORKFLOWID_Old.txt
+            cat ~/WORKFLOWID_Old.txt
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            aws cloudformation deploy \
+              --template-file .circleci/files/cloudfront.yml \
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --stack-name InitialStack
+      - destroy_environment
+      - revert_migrations
+      # Here's where you will add some code to rollback on failure  
+  
 ##eanup:
 ##  docker:
 ##    # Docker image here
