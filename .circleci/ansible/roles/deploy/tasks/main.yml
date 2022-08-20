@@ -24,11 +24,11 @@
   args:
     chdir: /home/ubuntu/backend-app/dist
   environment:  
-    ENVIRONMENT: production
+    NODE_ENV: production
     TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
     TYPEORM_MIGRATIONS_DIR: "./migrations"
     TYPEORM_MIGRATIONS: "./migrations/*.js"
-    TYPEORM_ENTITIES: “./modules/domain/*/.entity.js"
+    TYPEORM_ENTITIES: "./modules/domain/*/.entity.js"
     TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
     TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
     TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
@@ -44,8 +44,4 @@
   debug:
     msg: "{{execute_node.stdout_lines}}"
 
-- name: "configure pm2 start as service"
-  become: true
-  shell: |
-    sudo su -c "env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu"
-    pm2 save
+ 
