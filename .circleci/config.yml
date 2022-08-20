@@ -278,7 +278,7 @@ jobs:
           command: |
             cd backend
             npm install
-       - run:
+      - run:
           name: package backend
           command: |
             cd backend
