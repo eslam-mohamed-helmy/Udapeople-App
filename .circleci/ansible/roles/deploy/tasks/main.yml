@@ -19,7 +19,7 @@
     cd ~/backend-app
     npm install
 
-- name: "starting node app with PM2"
+- name: "starting node app with Pm2"
   become: true
   args:
     chdir: /home/ubuntu/backend-app/dist
