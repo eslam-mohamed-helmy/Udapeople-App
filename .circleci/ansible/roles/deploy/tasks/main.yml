@@ -1,49 +1,29 @@
----
-- name: "install netstat" 
-  become: true
-  shell: |
-     sudo apt install net-tools -y   
-- name: Create Backend Directory
+- name: Create directory to contains app
   file:
-    path: /home/ubuntu/backend-app
+    path: ~/backend-app
     state: directory
 
-- name: "unarchive artifact.tar.gz to EC2" 
+- name: Unarchive packages
   unarchive:
     src: artifact.tar.gz
-    dest: /home/ubuntu/backend-app
- 
+    dest: ~/backend-app
 
-- name: "install Node"
+- name: Installing node dependencies
   shell: |
     cd ~/backend-app
     npm install
-
-- name: "starting node app with Pm2"
-  become: true
-  args:
-    chdir: /home/ubuntu/backend-app/dist
-  environment:  
-    NODE_ENV: production
-    TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
-    TYPEORM_MIGRATIONS_DIR: "./migrations"
-    TYPEORM_MIGRATIONS: "./migrations/*.js"
-    TYPEORM_ENTITIES: "./modules/domain/*/.entity.js"
-    TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
-    TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
-    TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
-    TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
-    TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
+- name: Execute backend app with PM2
   shell: |
-    npm install
+    cd ~/backend-app/dist
     pm2 stop default
-    pm2 start npm -- start  
-
+    pm2 start main.js
   register: execute_node
-  
 
-- name: "print message"
+- name: print output
   debug:
     msg: "{{execute_node.stdout_lines}}"
 
- 
+- name: Configure PM2 to start as a service
+  become: true
+  shell: |
+    env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
