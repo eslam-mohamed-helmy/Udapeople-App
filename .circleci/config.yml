@@ -382,7 +382,7 @@ jobs:
               aws s3 rb s3://udapeople-${OldWorkflowID} --force
               aws cloudformation delete-stack --stack-name udapeople-frontend-${OldWorkflowID}
             else
-              echo "-------------------** No old stacks cannot delete**----------------------"
+              echo "-------------------** No old stacks cannot delete **----------------------"
             fi
             
 workflows:
