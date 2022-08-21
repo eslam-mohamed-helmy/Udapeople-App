@@ -352,7 +352,6 @@ jobs:
                       --no-paginate --output text)
             echo "Old Wokflow ID: $WORKFLOWID_Old" 
             curl https://kvdb.io/QcNvhUuqnK7NeE9NXfWzu2/old_workflow_id -d "${WORKFLOWID_Old}"
-
       - run:
           name: Update cloudfront distribution
           command: |
@@ -362,27 +361,33 @@ jobs:
               --stack-name InitialStack
       - destroy_environment
       - revert_migrations
-      # Here's where you will add some code to rollback on failure  
-  
-##eanup:
-##  docker:
-##    # Docker image here
-##  steps:
-##    # Checkout code from git
-##    - run:
-##        name: Get old stack workflow id
-##        command: |
-##          # your code here
-##          export OldWorkflowID="the id here"
-##          export STACKS=[] #put the list of stacks here
-##    - run:
-##        name: Remove old stacks and files
-##        command: |
-##          if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
-##          then
-##            # your code here
-##          fi
-##          
+
+  cleanup:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - install_awscli
+      - install_nodejs
+      - run:
+          name: Get old stack workflow id
+          command: 
+            export STACKS=($(aws cloudformation list-stacks \
+                --query "StackSummaries[*].StackName" \
+                --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+            echo Stack names: "${STACKS[@]}"    
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/QcNvhUuqnK7NeE9NXfWzu2/old_workflow_id)
+            echo  Old Workflow ID: $OldWorkflowID
+      - run:
+          name: Remove old stacks and files
+          command: |
+            if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
+            then
+              aws cloudformation delete-stack --stack-name udapeople-${OldWorkflowID}
+              aws s3 rb s3://udapeople-${OldWorkflowID} --force
+              aws cloudformation delete-stack --stack-name udapeople-${OldWorkflowID}
+            fi
+            
 workflows:
   default:
     jobs:
