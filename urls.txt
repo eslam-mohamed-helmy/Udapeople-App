@@ -1,5 +1,5 @@
 1. Public Url to GitHub repository  (not private) [URL01]:
-https://app.circleci.com/pipelines/github/eslam-mohamed-helmy/Udapeople-App
+https://github.com/eslam-mohamed-helmy/Udapeople-App
 https://app.circleci.com/pipelines/github/eslam-mohamed-helmy/Udapeople-App
 
 2.  public URL for your S3 Bucket (aka, your front-end). [URL02]:
